@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "avr"
+version = "0.0.1"
+authors = [
+  { name="Chris Ruettimann", email="author@example.com" },
+]
+description = "A module to emulate the AVR uC"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C :: 11",
+]

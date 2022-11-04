@@ -1,13 +1,15 @@
-from distutils.core import setup, Extension
+from setuptools import Extension, setup
 
+setup(
+    ext_modules=[
+        Extension(
+            name="avr",  # as it would be imported
+                               # may include packages/namespaces separated by `.`
 
-def main():
-    setup(name="avr",
-          version="a0.0.0",
-          description="A module to emulate the AVR uC",
-          author="Chris Rüttimann",
-          author_email="tbd@tbd.com",
-          ext_modules=[Extension("avr", ["src/avrcmodule.c"])])
-
-if __name__ == "__main__":
-    main()
+            sources=["src/avr/avrcmodule.c"], # all sources are compiled into a single binary file
+            include_dirs=["src/avr"], # include directories
+            # set compiler flag arch to aarch64
+            extra_compile_args=["-arch", "arm64"],
+        ),
+    ]
+)
