@@ -3,9 +3,7 @@
 '''
 python -m install cpython
 
-python -m build
-
-python -m pip install .  avr
+python -m pip install .
 '''
 
 

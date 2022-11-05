@@ -77,10 +77,11 @@ static PyObject *
 AVRo_set_sreg(AVRoObject *self, PyObject *args)
 {
     uint8_t new_sreg;
-    if (!PyArg_ParseTuple(args, "k", &new_sreg)){
-        //todo
+    // parse the argument to a uint8_t
+    if (!PyArg_ParseTuple(args, "B", &new_sreg))
         Py_RETURN_NONE;
-    }
+
+
     if (new_sreg>255 || new_sreg < 0){
         Py_RETURN_NONE;
     }
@@ -107,7 +108,7 @@ AVRo_set_register(AVRoObject *self, PyObject *args, PyObject *keywds){
 
     static char *kwlist[] = {"index", "new_value", NULL};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "kk", kwlist, &index, &new_value) || index < 0 || index >= REGISTER_SIZE || new_value>255 || new_value < 0) {
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "kB", kwlist, &index, &new_value) || index < 0 || index >= REGISTER_SIZE || new_value>255 || new_value < 0) {
         //todo
          Py_RETURN_NONE;
     }

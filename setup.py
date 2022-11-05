@@ -8,8 +8,6 @@ setup(
 
             sources=["src/avr/avrcmodule.c"], # all sources are compiled into a single binary file
             include_dirs=["src/avr"], # include directories
-            # set compiler flag arch to aarch64
-            extra_compile_args=["-arch", "arm64"],
         ),
     ]
 )
