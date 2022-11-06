@@ -28,6 +28,8 @@ static PyTypeObject AVRo_Type;
 #define NOT_IMPLEMENTED (0)
 #define GENERALIZATION_IMPLEMENTED (0)
 
+
+// allocate memory
 static AVRoObject *
 newAVRoObject(PyObject *arg)
 {
@@ -60,6 +62,7 @@ newAVRoObject(PyObject *arg)
 }
 
 /* AVRo methods */
+// deallocate memory
 static void
 AVRo_dealloc(AVRoObject *self)
 {
@@ -78,13 +81,8 @@ AVRo_set_sreg(AVRoObject *self, PyObject *args)
 {
     uint8_t new_sreg;
     // parse the argument to a uint8_t
-    if (!PyArg_ParseTuple(args, "B", &new_sreg))
+    if (!PyArg_ParseTuple(args, "b", &new_sreg))
         Py_RETURN_NONE;
-
-
-    if (new_sreg>255 || new_sreg < 0){
-        Py_RETURN_NONE;
-    }
 
     self->sreg = (uint8_t) new_sreg;
 
@@ -108,7 +106,7 @@ AVRo_set_register(AVRoObject *self, PyObject *args, PyObject *keywds){
 
     static char *kwlist[] = {"index", "new_value", NULL};
 
-    if (!PyArg_ParseTupleAndKeywords(args, keywds, "kB", kwlist, &index, &new_value) || index < 0 || index >= REGISTER_SIZE || new_value>255 || new_value < 0) {
+    if (!PyArg_ParseTupleAndKeywords(args, keywds, "kb", kwlist, &index, &new_value) || index < 0 || index >= REGISTER_SIZE || new_value>255 || new_value < 0) {
         //todo
          Py_RETURN_NONE;
     }
@@ -921,7 +919,7 @@ AVRo_setattr(AVRoObject *self, const char *name, PyObject *v)
         return PyDict_SetItemString(self->x_attr, name, v);
 }
 
-
+// https://docs.python.org/3/c-api/typeobj.html
 static PyTypeObject AVRo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     .tp_name = "avrmodule.AVRoObject",
@@ -956,6 +954,7 @@ avr_new(PyObject *self, PyObject *args)
 
 /* List of functions defined in the module */
 
+// https://docs.python.org/3/c-api/structures.html?highlight=pymethoddef#c.PyMethodDef
 static PyMethodDef avr_methods[] = {
     {"new",             avr_new,         METH_VARARGS,           PyDoc_STR("new() -> new AVR object")},
     {NULL,              NULL}           /* sentinel */
@@ -991,11 +990,13 @@ avr_exec(PyObject *m)
     return -1;
 }
 
+// https://docs.python.org/3/c-api/module.html?highlight=pymoduledef_slot#c.PyModuleDef_Slot
 static struct PyModuleDef_Slot avr_slots[] = {
     {Py_mod_exec, avr_exec},
     {0, NULL},
 };
 
+// https://docs.python.org/3/c-api/module.html#c.PyModuleDef
 static struct PyModuleDef avrmodule = {
     PyModuleDef_HEAD_INIT,
     "AVR",
